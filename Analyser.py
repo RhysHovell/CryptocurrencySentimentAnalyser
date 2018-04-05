@@ -13,7 +13,7 @@ stop_words = set(stopwords.words('english'))
 
 all_positive_words = []
 
-with open("positiveNews.text","r",encoding='utf-8',
+with open("positiveNews.text", "r", encoding='utf-8',
           errors='ignore') as positive:
         for line in positive.readlines():
             word = tokenizer.tokenize(line)
@@ -22,4 +22,17 @@ with open("positiveNews.text","r",encoding='utf-8',
                     all_positive_words.append(w.lower())
 
 positive_result = nltk.FreqDist(all_positive_words)
+
+
+all_negative_words = []
+
+with open("negativeNews.txt", "r", encoding='utf-8',
+          errors='ignore') as negative:
+        for line in negative.readlines():
+            word = tokenizer.tokenize(line)
+            for w in word:
+                if w.lower() not in stop_words:
+                    all_negative_words.append(w.lower())
+
+negative_result = nltk.FreqDist(all_negative_words)
 
