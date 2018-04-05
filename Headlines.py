@@ -14,7 +14,7 @@ json_data = json.loads(req.text)
 
 dataAll = json_data['data']['children']
 num_posts = 0
-while len(dataAll) <= 1000:
+while len(dataAll) <= 10000:
     time.sleep(2)
     last = dataAll[-1]['data']['name']
     url = 'https://www.reddit.com/r/CryptoCurrency/.json?after='+str(last)
