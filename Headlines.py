@@ -13,7 +13,7 @@ req = requests.get(url, headers=hdr)
 jsonData = json.loads(req.text)
 
 dataAll = jsonData['data']['children']
-num_posts = 0
+numPosts = 0
 while len(dataAll) <= 1000:
     time.sleep(2)
     last = dataAll[-1]['data']['name']
@@ -21,10 +21,10 @@ while len(dataAll) <= 1000:
     req = requests.get(url, headers=hdr)
     data = json.loads(req.text)
     dataAll += data['data']['children']
-    if num_posts == len(dataAll):
+    if numPosts == len(dataAll):
         break
     else:
-        num_posts = len(dataAll)
+        numPosts = len(dataAll)
 
 
 SA = SA()
