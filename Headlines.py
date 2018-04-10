@@ -15,7 +15,7 @@ jsonData = json.loads(req.text)
 dataAll = jsonData['data']['children']
 numPosts = 0
 while len(dataAll) <= 1000:
-    time.sleep(2)
+    time.sleep(6)
     last = dataAll[-1]['data']['name']
     url = 'https://www.reddit.com/r/CryptoCurrency/.json?after='+str(last)
     req = requests.get(url, headers=hdr)
@@ -35,14 +35,14 @@ for post in dataAll:
     results = SA.polarity_scores(post['data']['title'])
     if results['compound'] > 0.2:
         positiveList.append(post['data']['title'])
-    elif results['compound'] <-0.2:
+    elif results['compound'] < 0.2:
         negativeList.append(post['data']['title'])
 
-with open("positiveNews.txt", "w" , encoding='utf-8', errors='ignore') as positive:
+with open("Data/positiveNews.txt", "w", encoding='utf-8', errors='ignore') as positive:
     for post in positiveList:
         positive.write(post+"\n")
 
-with open("negativeNews.txt", "w" , encoding='utf-8', errors='ignore') as negative:
+with open("Data/negativeNews.txt", "w", encoding='utf-8', errors='ignore') as negative:
     for post in negativeList:
         negative.write(post+"\n")
 

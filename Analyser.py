@@ -1,7 +1,7 @@
 import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import RegexpTokenizer
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plot
 import math
 
 example = "This is an example sentence!, However, it "\
@@ -9,30 +9,65 @@ example = "This is an example sentence!, However, it "\
 
 tokenizer = RegexpTokenizer(r'\w+')
 
-stop_words = set(stopwords.words('english'))
+stopWords = set(stopwords.words('english'))
 
-all_positive_words = []
+allPositiveWords = []
 
-with open("positiveNews.text", "r", encoding='utf-8',
+with open("Data/positiveNews.txt", "r", encoding='utf-8',
           errors='ignore') as positive:
         for line in positive.readlines():
             word = tokenizer.tokenize(line)
             for w in word:
-                if w.lower() not in stop_words:
-                    all_positive_words.append(w.lower())
+                if w.lower() not in stopWords:
+                    allPositiveWords.append(w.lower())
 
-positive_result = nltk.FreqDist(all_positive_words)
+positiveResult = nltk.FreqDist(allPositiveWords)
+print(positiveResult.most_common(12))
 
+allNegativeWords = []
 
-all_negative_words = []
-
-with open("negativeNews.txt", "r", encoding='utf-8',
+with open("Data/negativeNews.txt", "r", encoding='utf-8',
           errors='ignore') as negative:
         for line in negative.readlines():
             word = tokenizer.tokenize(line)
             for w in word:
-                if w.lower() not in stop_words:
-                    all_negative_words.append(w.lower())
+                if w.lower() not in stopWords:
+                    allNegativeWords.append(w.lower())
 
-negative_result = nltk.FreqDist(all_negative_words)
+negativeResult = nltk.FreqDist(allNegativeWords)
+print(negativeResult.most_common(12))
+
+plot.style.use('ggplot')
+
+y = [x[1] for x in positiveResult.most_common(len(allPositiveWords))]
+yResult = []
+
+for i, k, z, t in zip(y[0::4], y[1::4], y[2::4], y[3::4]):
+    yResult.append(math.log(i+k+z+t))
+x = [math.log(i+1) for i in range(len(yResult))]
+
+plot.xlabel("Words")
+plot.ylabel("Frequency")
+plot.title("Word Distribution - Positive")
+plot.plot(x, yResult)
+plot.show()
+
+
+y = [x[1] for x in negativeResult.most_common(len(allNegativeWords))]
+yResult = []
+for i, k, z in zip(y[0::3], y[1::3], y[2::3]):
+    yResult.append(math.log(i + k + z + t))
+    if i+k+z == 0:
+        break
+        yResult.append(math.log(i+k+z))
+x = [math.log(i+1) for i in range(len(yResult))]
+
+plot.xlabel("Words")
+plot.ylabel("Frequency")
+plot.title("Word Distribution - Negative")
+plot.plot(x, yResult)
+plot.show()
+
+
+
 
