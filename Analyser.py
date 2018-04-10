@@ -50,6 +50,7 @@ plot.xlabel("Words")
 plot.ylabel("Frequency")
 plot.title("Word Distribution - Positive")
 plot.plot(x, yResult)
+plot.savefig("positiveDist.png")
 plot.show()
 
 
@@ -66,6 +67,7 @@ plot.xlabel("Words")
 plot.ylabel("Frequency")
 plot.title("Word Distribution - Negative")
 plot.plot(x, yResult)
+plot.savefig("templates/negativeDist.png")
 plot.show()
 
 
