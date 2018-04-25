@@ -3,16 +3,23 @@ import matplotlib.pyplot as plot
 import numpy as np
 from Headlines import headlines
 
-
-
-
-
 def chart():
     positive, negative = headlines()
-    numPos = positive.count()
-    numNeg = negative.count()
-    y = [448/982*100, numNeg, numPos]
+
+    numPos = len(positive)
+    numNeg = len(negative)
+
+    print(numPos)
+    print(numNeg)
+
+    if numPos > numNeg:
+        numNeu = (numPos - numNeg)
+    else:
+        numNeu = (numNeg - numPos)
+
+    y = [numNeu, numNeg, numPos]
     x = [1, 2, 3]
+
 
     plot.style.use('bmh')
 
@@ -23,6 +30,6 @@ def chart():
     axis.set_xticks(index+0.05+width/2)
     axis.set_xticklabels(['Neutral', 'Negative', 'Positive'])
     plot.title("Sentiment Distribution")
-    plot.ylabel("Percentage %")
+    plot.ylabel("No Of Posts")
     plot.savefig("static/sentiment_dist.png")
     plot.show()

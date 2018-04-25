@@ -7,6 +7,7 @@ import time
 def headlines():
     from nltk.sentiment import SentimentIntensityAnalyzer as SA
 
+
     hdr = {'User-Agent': 'windows:r/CryptoCurrency.single.result:v1.0' + '(by /u/Tulkas2386)'}
     url = 'https://www.reddit.com/r/CryptoCurrency/.json'
     req = requests.get(url, headers=hdr)
@@ -45,5 +46,5 @@ def headlines():
         for post in negativeList:
             negative.write(post + "\n")
 
-
+    return positiveList, negativeList
 
