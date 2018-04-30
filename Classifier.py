@@ -5,6 +5,7 @@ from nltk.classify.scikitlearn import SklearnClassifier
 
 from imblearn.over_sampling import SMOTE
 
+import pickle
 import seaborn as s
 import pandas as p
 import numpy as np
@@ -14,15 +15,8 @@ import math
 import random
 from collections import Counter
 
-from sklearn.naive_bayes import MultinomialNB, BernoulliNB
-from sklearn.linear_model import LogisticRegression, SGDClassifier
-from sklearn. svm import LinearSVC
-from sklearn.ensemble import RandomForestClassifier
-
-s.set_style(style='white')
-s.set(context='notebook')
-
-sm = SMOTE()
+from sklearn.linear_model import LogisticRegression
+from sklearn.svm import LinearSVC
 
 precision = 1
 
@@ -32,6 +26,7 @@ stopWords = set(stopwords.words('english'))
 
 allPositiveWords = []
 allNegativeWords = []
+
 count = 0
 
 with open("Data/positiveNews.txt", "r", encoding='utf-8',
@@ -54,7 +49,7 @@ with open("Data/negativeNews.txt", "r", encoding='utf-8',
                 allNegativeWords.append(w.lower())
 
 allWords = nltk.FreqDist(allPositiveWords+allNegativeWords)
-feat = [x[0] for x in allWords.most_common(1000)]
+feat = [x[0] for x in allWords.most_common(1500)]
 
 
 print(allNegativeWords[:10])
@@ -77,7 +72,7 @@ with open("Data/positiveNews.txt", "r", encoding='utf-8',
         for w in word:
             if w.lower() not in stopWords:
                 temp.append(w.lower())
-            f_sets.append((f_creation(temp), 1))
+        f_sets.append((f_creation(temp), 1))
 
 with open("Data/negativeNews.txt", "r", encoding='utf-8',
           errors='ignore') as negative:
@@ -88,7 +83,8 @@ with open("Data/negativeNews.txt", "r", encoding='utf-8',
         word = tokenizer.tokenize(line)
         for w in word:
             if w.lower() not in stopWords:
-                f_sets.append((f_creation(temp), -1))
+                temp.append(w.lower())
+        f_sets.append((f_creation(temp), -1))
 
 from sklearn.model_selection import ShuffleSplit
 
@@ -99,13 +95,30 @@ ss = ShuffleSplit(n_splits=10, test_size=0.2)
 
 subsetSize = math.ceil(len(f_sets) / num_folds)
 
+'''
 for i in range(num_folds):
     classifierList = []
     trainSet = (f_sets[(i + 1) * subsetSize:]
                     + f_sets[:i * subsetSize])
     testSet = f_sets[i * subsetSize:(i + 1) * subsetSize]
 
-    classifier = nltk.NaiveBayesClassifier.train(trainSet)
-    classifierList.append(classifier)
-    runs.append((nltk.classify.accuracy(classifier, testSet)) * 100)
-    print("NaiveBayes Accuracy:", round(runs[-1], precision))
+    nb = nltk.NaiveBayesClassifier.train(trainSet)
+
+    classifierList.append(nb)
+    runs.append((nltk.classify.accuracy(nb, testSet)) * 100)
+    print("Naive Bayes Accuracy:", round(runs[-1], precision))
+
+
+'''
+
+for i in range(num_folds):
+    classifierList= []
+    trainSet = (f_sets[(i + 1) * subsetSize:] + f_sets[:i * subsetSize])
+    testSet = f_sets[i * subsetSize:(i + 1) * subsetSize]
+
+    lr = SklearnClassifier(LogisticRegression())
+    lr.train(trainSet)
+
+    runs.append((nltk.classify.accuracy(lr, testSet)) * 100)
+    print("Logistic Regression Accuracy:", round(runs[-1], precision))
+

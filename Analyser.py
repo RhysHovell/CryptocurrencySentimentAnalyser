@@ -13,13 +13,15 @@ import random
 from collections import Counter
 
 
+
+tokenizer = RegexpTokenizer(r'\w+')
+
+sw = set(stopwords.words('english'))
+
 def analyse():
-    tokenizer = RegexpTokenizer(r'\w+')
-
-    sw = set(stopwords.words('english'))
-
     allPositiveWords = []
     allNegativeWords = []
+
 
     with open("Data/positiveNews.txt", "r", encoding='utf-8',
               errors='ignore') as positive:
@@ -29,11 +31,11 @@ def analyse():
                     if w.lower() not in sw:
                         allPositiveWords.append(w.lower())
 
-    cp = Counter(allPositiveWords)
-    positiveResult = nltk.FreqDist(allPositiveWords)
+            positiveResult = nltk.FreqDist(allPositiveWords)
 
     mostCommonPos = allPositiveWords[:10]
     print(mostCommonPos)
+
     with open("Data/negativeNews.txt", "r", encoding='utf-8',
               errors='ignore') as negative:
             for line in negative.readlines():
@@ -42,32 +44,29 @@ def analyse():
                     if w.lower() not in sw:
                         allNegativeWords.append(w.lower())
 
-    negativeResult = nltk.FreqDist(allNegativeWords)
+            negativeResult = nltk.FreqDist(allNegativeWords)
 
     mostCommonNeg = allNegativeWords[:10]
     print(mostCommonNeg)
+
     plot.style.use('bmh')
 
-    y = [x[1] for x in positiveResult.most_common(len(allPositiveWords))]
+    y = [x[1] for x in positiveResult.most_common()]
 
-
-
-
+    plot.plot(y)
     plot.xlabel("Words")
     plot.ylabel("Number of Mentions")
     plot.title("Word Distribution - Positive")
-    plot.plot(y)
     plot.savefig("static/positiveDist.png")
-    plot.show()
+    plot.close()
 
-    y = [x[1] for x in negativeResult.most_common(len(allNegativeWords))]
+    y = [x[1] for x in negativeResult.most_common()]
 
+    plot.plot(y)
     plot.xlabel("Words")
     plot.ylabel("Number of Mentions")
     plot.title("Word Distribution - Negative")
-    plot.plot(y)
     plot.savefig("static/negativeDist.png")
-    plot.show()
+    plot.close()
 
-
-    return (mostCommonPos, mostCommonNeg)
+    return mostCommonPos, mostCommonNeg

@@ -9,11 +9,13 @@
 
     <title>NLPSentimentCrypto</title>
 
+
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 
     <!-- Custom styles for this template -->
-    <link href="styles/navbar-top-fixed.css" rel="stylesheet">
+    <link href="static/styles/navbar-top-fixed.css" rel="stylesheet">
+    <link href="static/styles/home.css" rel="stylesheet">
 </head>
 
 <body>
@@ -39,44 +41,89 @@
         </form>
       </div>
     </nav>
+        <div class="container-fluid">
+        <br>
+            <br>
+                <div class="container-fluid">
+                        <div class="alert alert-warning text-center" role="alert">
+                            <strong>Get the Market Sentiment from the r/CryptoCurrency subreddit.</strong>
+                        </div>
+                </div>
+        <!--
+         <div class="row">
+              <div class="col-sm-4">
+                  <div class="btcwdgt-price" bw-theme="light"></div>
+              </div>
+              <div class="col-sm-4">
+                  <div class="btcwdgt-price" bw-theme="light"bw-cur="eur"></div>
+              </div>
+              <div class="col-sm-4">
+                  <div class="btcwdgt-price" bw-theme="light"bw-cur="gbp"></div>
+              </div>
+         </div>
+            -->
+            <div class="row">
+                  <div class="col-md">
+                <h2>Cryptocurrency Sentiment Analysis</h2>
+                <img src="{{url_for('static', filename='sentiment_dist.png')}}" />
+                <br>
+                <br>
+                        <form>
+                            <a href="#" id=headline><button class='btn btn-primary'>Generate Current Sentiment</button></a>
+                        </form>
+                  </div>
 
-  <main role="main" class="container">
-      <div class='container'>
-          <br>
-          <br>
-          <br>
-          <br>
-        <h2>Generate Current Sentiment</h2>
-            <form>
-                <a href="#" id=headline><button class='btn btn-default'>Generate</button></a>
-            </form>
+                  <div class="col-md">
+                <h4>Most Common Negative Words: Number of mentions </h4>
+                    {% for i in negList %}
+                            {{ i }}
+                        {% endfor  %}
+                    <br>
+                  <br>
+                <h4>Most Common Positive Words: Number of mentions </h4>
+                        {% for i in posList %}
+                          {{ i }}
+                    {% endfor %}
+                  </div>
 
-
-    <h4>Cryptocurrency Sentiment Analysis</h4>
-    <img src="{{url_for('static', filename='sentiment_dist.png')}}" />
-    <br>
-    <br>
-    <h2>Most Common Negative Words: Number of mentions </h2>
-     {% for i in negList %}
-       {{ i }}
-    {% endfor %}
-
-      <br>
-      <br>
-      <br>
-    <h2>Most Common Positive Words: Number of mentions </h2>
-        {% for i in posList %}
-    {{ i }}
-    {% endfor %}
-      </div>
-  </main>
+            </div>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script>
+      (function(b,i,t,C,O,I,N) {
+        window.addEventListener('load',function() {
+          if(b.getElementById(C))return;
+          I=b.createElement(i),N=b.getElementsByTagName(i)[0];
+          I.src=t;I.id=C;N.parentNode.insertBefore(I, N);
+        },false)
+      })(document,'script','https://widgets.bitcoin.com/widget.js','btcwdgt');
+    </script>
     <script type=text/javascript>
         $(function() {
           $('a#headline').bind('click', function() {
+            $.getJSON('/headline',
+                function(data) {
+              //do nothing
+            });
+            return false;
+          });
+        });
+    </script>
+<script type=text/javascript>
+        $(function() {
+          $('').bind('click', function() {
             $.getJSON('/headline',
                 function(data) {
               //do nothing

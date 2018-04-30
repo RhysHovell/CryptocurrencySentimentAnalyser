@@ -7,7 +7,14 @@ import time
 def headlines():
     from nltk.sentiment import SentimentIntensityAnalyzer as SA
 
+    SA = SA()
 
+    posCompound = 0.2
+    negCompound = -0.2
+    numHeadlines = 1000
+
+    positiveList = []
+    negativeList = []
     hdr = {'User-Agent': 'windows:r/CryptoCurrency.single.result:v1.0' + '(by /u/Tulkas2386)'}
     url = 'https://www.reddit.com/r/CryptoCurrency/.json'
     req = requests.get(url, headers=hdr)
@@ -15,7 +22,7 @@ def headlines():
 
     dataAll = jsonData['data']['children']
     numPosts = 0
-    while len(dataAll) <= 1000:
+    while len(dataAll) <= numHeadlines:
         time.sleep(2)
         last = dataAll[-1]['data']['name']
         url = 'https://www.reddit.com/r/CryptoCurrency/.json?after=' + str(last)
@@ -27,15 +34,12 @@ def headlines():
         else:
             numPosts = len(dataAll)
 
-    SA = SA()
-    positiveList = []
-    negativeList = []
 
     for post in dataAll:
         results = SA.polarity_scores(post['data']['title'])
-        if results['compound'] > 0.2:
+        if results['compound'] > posCompound:
             positiveList.append(post['data']['title'])
-        elif results['compound'] < -0.2:
+        elif results['compound'] < negCompound:
             negativeList.append(post['data']['title'])
 
     with open("Data/positiveNews.txt", "w", encoding='utf-8', errors='ignore') as positive:
@@ -48,3 +52,8 @@ def headlines():
 
     return positiveList, negativeList
 
+
+def statusHeadline():
+
+    status = "Started"
+    return status

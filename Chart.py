@@ -20,7 +20,6 @@ def chart():
     y = [numNeu, numNeg, numPos]
     x = [1, 2, 3]
 
-
     plot.style.use('bmh')
 
     index = np.arange(len(x))
@@ -32,4 +31,3 @@ def chart():
     plot.title("Sentiment Distribution")
     plot.ylabel("No Of Posts")
     plot.savefig("static/sentiment_dist.png")
-    plot.show()

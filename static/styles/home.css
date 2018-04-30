@@ -1,0 +1,30 @@
+
+.alert-warning {
+  margin-left: -50px;
+  margin-right:-50px;
+}
+
+.container-fluid{
+  background-color: lightgray;
+}
+
+.row {
+    padding-right: 150px;
+    padding-left:150px;
+    padding-top: 75px;
+}
+
+.btn-primary {
+
+  margin-inline-start: 100px;
+  padding-inline-start: 100px;
+  padding-inline-end:  100px;
+
+  padding-right:
+    75px;
+  margin-left: 125px;
+
+  color: whitesmoke;
+  outline-style:  none;
+
+}
