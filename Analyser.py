@@ -1,16 +1,10 @@
 import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import RegexpTokenizer
-from nltk.classify.scikitlearn import SklearnClassifier
 
-import seaborn as s
-import pandas as p
-import numpy as np
+
 import matplotlib.pyplot as plot
 
-import math
-import random
-from collections import Counter
 
 
 

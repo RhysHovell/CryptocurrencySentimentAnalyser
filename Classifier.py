@@ -90,10 +90,10 @@ from sklearn.model_selection import ShuffleSplit
 
 random.shuffle(f_sets)
 runs = []
-num_folds = 10
+folds = 10
 ss = ShuffleSplit(n_splits=10, test_size=0.2)
 
-subsetSize = math.ceil(len(f_sets) / num_folds)
+subsetSize = math.ceil(len(f_sets) / folds)
 
 '''
 for i in range(num_folds):
@@ -111,13 +111,11 @@ for i in range(num_folds):
 
 '''
 
-for i in range(num_folds):
-    classifierList= []
+for i in range(folds):
     trainSet = (f_sets[(i + 1) * subsetSize:] + f_sets[:i * subsetSize])
     testSet = f_sets[i * subsetSize:(i + 1) * subsetSize]
 
-    lr = SklearnClassifier(LogisticRegression())
-    lr.train(trainSet)
+    lr = pickle.load(open("lr_classifier", "rb"))
 
     runs.append((nltk.classify.accuracy(lr, testSet)) * 100)
     print("Logistic Regression Accuracy:", round(runs[-1], precision))
