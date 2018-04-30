@@ -30,7 +30,6 @@ pycups==1.9.73
 pyinotify==0.9.6
 pyOpenSSL==16.2.0
 pyparsing==2.1.10
-python-apt==1.4.0b3
 python-dateutil==2.6.0
 python-debian==0.1.30
 pytz==2017.2
