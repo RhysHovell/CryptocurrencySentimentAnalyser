@@ -11,6 +11,7 @@ mostCommonPos, mostCommonNeg = analyse()
 
 @app.route('/')
 def home():
+    mostCommonPos, mostCommonNeg = analyse()
 
     negList = str(mostCommonNeg).replace('[', '').replace(']', '').replace(',', '')
     posList = str(mostCommonPos).replace('[', '').replace(']', '').replace(',', '')
@@ -20,6 +21,7 @@ def home():
 
 @app.route('/home.html')
 def other():
+    mostCommonPos, mostCommonNeg = analyse()
 
     negList = str(mostCommonNeg).replace('[', '').replace(']', '').replace(',', '')
     posList = str(mostCommonPos).replace('[', '').replace(']', '').replace(',', '')
@@ -44,8 +46,10 @@ def chartS():
     chart()
     return render_template('home.html', status='Finished')
 
+
 @app.route('/word.html')
 def word():
+    mostCommonPos, mostCommonNeg = analyse()
     negList = str(mostCommonNeg).replace('[', '').replace(']', '').replace(',', '')
     posList = str(mostCommonPos).replace('[', '').replace(']', '').replace(',', '')
 

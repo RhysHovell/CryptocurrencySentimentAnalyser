@@ -26,6 +26,10 @@ stopWords = set(stopwords.words('english'))
 
 allPositiveWords = []
 allNegativeWords = []
+featWords = 1500
+
+negLabel = -1
+posLabel = 1
 
 count = 0
 
@@ -49,7 +53,7 @@ with open("Data/negativeNews.txt", "r", encoding='utf-8',
                 allNegativeWords.append(w.lower())
 
 allWords = nltk.FreqDist(allPositiveWords+allNegativeWords)
-feat = [x[0] for x in allWords.most_common(1500)]
+feat = [x[0] for x in allWords.most_common(featWords)]
 
 
 print(allNegativeWords[:10])
@@ -72,7 +76,7 @@ with open("Data/positiveNews.txt", "r", encoding='utf-8',
         for w in word:
             if w.lower() not in stopWords:
                 temp.append(w.lower())
-        f_sets.append((f_creation(temp), 1))
+        f_sets.append((f_creation(temp), posLabel))
 
 with open("Data/negativeNews.txt", "r", encoding='utf-8',
           errors='ignore') as negative:
@@ -84,7 +88,7 @@ with open("Data/negativeNews.txt", "r", encoding='utf-8',
         for w in word:
             if w.lower() not in stopWords:
                 temp.append(w.lower())
-        f_sets.append((f_creation(temp), -1))
+        f_sets.append((f_creation(temp), negLabel))
 
 from sklearn.model_selection import ShuffleSplit
 

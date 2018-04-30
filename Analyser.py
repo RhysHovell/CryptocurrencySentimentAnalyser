@@ -16,7 +16,6 @@ def analyse():
     allPositiveWords = []
     allNegativeWords = []
 
-
     with open("Data/positiveNews.txt", "r", encoding='utf-8',
               errors='ignore') as positive:
             for line in positive.readlines():

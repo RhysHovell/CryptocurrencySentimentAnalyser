@@ -8,6 +8,7 @@ def headlines():
     from nltk.sentiment import SentimentIntensityAnalyzer as SA
 
     SA = SA()
+    subreddit = 'CryptoCurrency'
 
     posCompound = 0.2
     negCompound = -0.2
@@ -25,7 +26,7 @@ def headlines():
     while len(dataAll) <= numHeadlines:
         time.sleep(2)
         last = dataAll[-1]['data']['name']
-        url = 'https://www.reddit.com/r/CryptoCurrency/.json?after=' + str(last)
+        url = 'https://www.reddit.com/r/' + subreddit + '/.json?after=' + str(last)
         req = requests.get(url, headers=hdr)
         data = json.loads(req.text)
         dataAll += data['data']['children']
