@@ -5,9 +5,9 @@ import time
 
 
 def headlines():
-    from nltk.sentiment import SentimentIntensityAnalyzer as SA
+    from nltk.sentiment import SentimentIntensityAnalyzer as A
 
-    SA = SA()
+    A = A()
     subreddit = 'CryptoCurrency'
 
     posCompound = 0.2
@@ -16,8 +16,8 @@ def headlines():
 
     positiveList = []
     negativeList = []
-    hdr = {'User-Agent': 'windows:r/CryptoCurrency.single.result:v1.0' + '(by /u/Tulkas2386)'}
-    url = 'https://www.reddit.com/r/CryptoCurrency/.json'
+    hdr = {'User-Agent': 'windows:r/'+ subreddit + '.single.result:v1.0' + '(by /u/Tulkas2386)'}
+    url = 'https://www.reddit.com/r/' + subreddit + '/.json'
     req = requests.get(url, headers=hdr)
     jsonData = json.loads(req.text)
 
@@ -35,14 +35,15 @@ def headlines():
         else:
             numPosts = len(dataAll)
 
-
+    ''' Sentiment Calculation, takes headlines one by one, calculates compound'''
     for post in dataAll:
-        results = SA.polarity_scores(post['data']['title'])
+        results = A.polarity_scores(post['data']['title'])
         if results['compound'] > posCompound:
             positiveList.append(post['data']['title'])
         elif results['compound'] < negCompound:
             negativeList.append(post['data']['title'])
 
+    '''Writes headlines to files'''
     with open("Data/positiveNews.txt", "w", encoding='utf-8', errors='ignore') as positive:
         for post in positiveList:
             positive.write(post + "\n")
@@ -51,6 +52,7 @@ def headlines():
         for post in negativeList:
             negative.write(post + "\n")
 
+    '''returns positive and negative lists, used for showing top ten negative and positive words on web app'''
     return positiveList, negativeList
 
 

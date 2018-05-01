@@ -12,10 +12,18 @@ tokenizer = RegexpTokenizer(r'\w+')
 
 sw = set(stopwords.words('english'))
 
+
 def analyse():
     allPositiveWords = []
     allNegativeWords = []
 
+    with open("Data/positiveNews.txt", "r", encoding='utf-8',
+              errors='ignore') as positive:
+            for line in positive.readlines():
+                word = tokenizer.tokenize(line)
+                for w in word:
+                    if w.lower() not in sw:
+                        allPositiveWords.append(w.lower())
     with open("Data/positiveNews.txt", "r", encoding='utf-8',
               errors='ignore') as positive:
             for line in positive.readlines():
@@ -43,8 +51,10 @@ def analyse():
     print(mostCommonNeg)
 
     plot.style.use('bmh')
+    plotPos = positiveResult.most_common()
+    plotNeg = negativeResult.most_common()
 
-    y = [x[1] for x in positiveResult.most_common()]
+    y = [x[1] for x in plotPos]
 
     plot.plot(y)
     plot.xlabel("Words")
@@ -53,7 +63,7 @@ def analyse():
     plot.savefig("static/positiveDist.png")
     plot.close()
 
-    y = [x[1] for x in negativeResult.most_common()]
+    y = [x[1] for x in plotNeg]
 
     plot.plot(y)
     plot.xlabel("Words")

@@ -67,7 +67,8 @@ def f_creation(wList):
     return features
 
 
-f_sets = []
+fSets = []
+
 with open("Data/positiveNews.txt", "r", encoding='utf-8',
           errors='ignore') as positive:
     for line in positive.readlines():
@@ -76,7 +77,7 @@ with open("Data/positiveNews.txt", "r", encoding='utf-8',
         for w in word:
             if w.lower() not in stopWords:
                 temp.append(w.lower())
-        f_sets.append((f_creation(temp), posLabel))
+        fSets.append((f_creation(temp), posLabel))
 
 with open("Data/negativeNews.txt", "r", encoding='utf-8',
           errors='ignore') as negative:
@@ -88,16 +89,16 @@ with open("Data/negativeNews.txt", "r", encoding='utf-8',
         for w in word:
             if w.lower() not in stopWords:
                 temp.append(w.lower())
-        f_sets.append((f_creation(temp), negLabel))
+        fSets.append((f_creation(temp), negLabel))
 
 from sklearn.model_selection import ShuffleSplit
 
-random.shuffle(f_sets)
+random.shuffle(fSets)
 runs = []
 folds = 10
 ss = ShuffleSplit(n_splits=10, test_size=0.2)
 
-subsetSize = math.ceil(len(f_sets) / folds)
+subsetSize = math.ceil(len(fSets) / folds)
 
 '''
 for i in range(num_folds):
